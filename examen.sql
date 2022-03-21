@@ -88,11 +88,20 @@ SELECT id,nombre from personaje WHERE id IN
 
 -- 8.- Estatura media de los Elfos (Todas las clases, salvo Noldor)
 
+
+
+
 -- 9.- ¿Que persona ha mencionado más anecdotas del capitulo 'Cap 06'?
 
 -- 10.- ¿Que razas se han casado más veces?
 
 -- 11.- ¿Cual es la media de fuerza de los guerreros?
+
+SELECT AVG(fuerza) FROM caracteristicas_rol WHERE id IN
+    (SELECT id_rol from personaje where id_trabajo IN 
+        (SELECT id FROM trabajo WHERE nombre="Guerrero"));
+
+--692.8000
 
 -- 12.- ¿Cual es la media de lugares por capitulo? 
 -- (Revisar las anecdotas que SI estuvieron en algún capitulo)
@@ -102,3 +111,6 @@ SELECT id,nombre from personaje WHERE id IN
 -- 14.- ¿Hubo algún personaje que no esté en ningún capitulo?
 
 -- 15.- ¿Que raza de personaje es más bajo de media?
+SELECT raza.nombre, avg(cf.altura) as media FROM personaje LEFT JOIN raza on raza.id = personaje.id_raza LEFT JOIN carasteristicas_fisicas cf ON cf.id = personaje.id_fisicas group by raza.id order by media ASC limit 1;
+
+--wose
