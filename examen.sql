@@ -33,9 +33,27 @@ SELECT id,nombre FROM raza WHERE id IN
 
 -- 3.- ID y Nombre de los personajes que tuvieron 'Pareja'
 
+SELECT id,nombre FROM personaje WHERE id IN 
+    (SELECT id_personaje from relacion WHERE id_tipo_relacion IN
+        (SELECT id FROM tipo_relacion WHERE nombre = "pareja"));
+
+--1 chorvitta, 11 filas
+
 -- 4.- ¿Que persona (ID y nombre) interpretó al personaje más alto?
 
+SELECT id,nombre FROM persona WHERE id IN
+	(SELECT id_persona FROM personaje WHERE id_fisicas IN 
+    	(SELECT id FROM carasteristicas_fisicas WHERE altura = 
+        	(SELECT MAX(altura)FROM carasteristicas_fisicas)));
+
+--no da datos
+
 -- 5.- ID y Nombre de los capitulos en los que se menciona 'Playa de Cangrejos Gigantes'
+
+SELECT nombre FROM lugares WHERE id IN
+    ( SELECT id_lugar FROM mn_lugares_anecdota WHERE id_anecdota IN
+        ( SELECT id FROM anecdotas where
+            (anecdotas.description LIKE "% Playa de Cangrejos Gigantes %" )));
 
 -- 6.- ¿Cuantas anecdotas hay que estuvieran en 'Catedral Del Dolor'?
 
