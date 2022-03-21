@@ -95,6 +95,10 @@ SELECT id,nombre from personaje WHERE id IN
 -- 9.- ¿Que persona ha mencionado más anecdotas del capitulo 'Cap 06'?
 
 -- 10.- ¿Que razas se han casado más veces?
+SELECT COUNT(nombre),nombre from raza where id IN (SELECT id_raza FROM personaje WHERE id IN (SELECT id_personaje FROM relacion WHERE id_tipo_relacion IN (SELECT id FROM tipo_relacion WHERE nombre="casado")))ORDER BY COUNT(nombre)LIMIT 1;
+
+2 elfo
+
 
 -- 11.- ¿Cual es la media de fuerza de los guerreros?
 
