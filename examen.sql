@@ -17,7 +17,19 @@ SELECT COUNT(*) FROM capitulos;
 
 -- 1.- Lugares que estuvieran en anecdotas en las que se mencione un 'Dragon'
 
+SELECT nombre FROM lugares WHERE id IN
+    ( SELECT id_lugar FROM mn_lugares_anecdota WHERE id_anecdota IN
+        ( SELECT id FROM anecdotas where
+            (anecdotas.description LIKE "% Dragon %" )));
+
+--Taberna 7º cielo 19 filas
+
 -- 2.- ID y Nombre de las razas que hayan sido 'Guerrero'
+SELECT id,nombre FROM raza WHERE id IN 
+    (SELECT DISTINCT id_raza FROM personaje WHERE id_trabajo IN
+        (SELECT id FROM trabajo where nombre="Guerrero"));
+
+-- 1 elfo  4 filas
 
 -- 3.- ID y Nombre de los personajes que tuvieron 'Pareja'
 
