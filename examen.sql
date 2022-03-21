@@ -41,12 +41,13 @@ SELECT id,nombre FROM personaje WHERE id IN
 
 -- 4.- ¿Que persona (ID y nombre) interpretó al personaje más alto?
 
-SELECT id,nombre FROM persona WHERE id IN
-	(SELECT id_persona FROM personaje WHERE id_fisicas IN 
-    	(SELECT id FROM carasteristicas_fisicas WHERE altura = 
-        	(SELECT MAX(altura)FROM carasteristicas_fisicas)));
+SELECT id, nombre FROM persona WHERE id IN
+    (SELECT id_persona FROM personaje WHERE id=
+        (SELECT id from carasteristicas_fisicas WHERE altura IN 
+            (SELECT MAX(altura)FROM carasteristicas_fisicas WHERE id IN
+                (SELECT personaje.id FROM personaje JOIN carasteristicas_fisicas cf ON personaje.id_fisicas = cf.id))));
 
---no da datos
+--5 Becky
 
 
 -- 5.- ID y Nombre de los capitulos en los que se menciona 'Playa de Cangrejos Gigantes'
