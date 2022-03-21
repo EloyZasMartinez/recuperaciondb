@@ -109,7 +109,20 @@ SELECT AVG(fuerza) FROM caracteristicas_rol WHERE id IN
 
 -- 13.- ¿Que personaje estuvo en más anecdotas?
 
+
+SELECT COUNT(id_personaje),id_personaje FROM mn_personaje_anectdota WHERE mn_personaje_anectdota.id_anecdota IN 
+    (SELECT id from anecdotas)
+        GROUP BY id_personaje ORDER BY COUNT(id_personaje) DESC LIMIT 2;
+--empate entre el personaje con id 15 y 18
+
+
 -- 14.- ¿Hubo algún personaje que no esté en ningún capitulo?
+SELECT id FROM personaje WHERE id NOT IN 
+    ( SELECT id_personaje FROM mn_personaje_capitulo);
+
+
+--no hay 
+
 
 -- 15.- ¿Que raza de personaje es más bajo de media?
 SELECT raza.nombre, avg(cf.altura) as media FROM personaje LEFT JOIN raza on raza.id = personaje.id_raza LEFT JOIN carasteristicas_fisicas cf ON cf.id = personaje.id_fisicas group by raza.id order by media ASC limit 1;
