@@ -48,16 +48,43 @@ SELECT id,nombre FROM persona WHERE id IN
 
 --no da datos
 
+
 -- 5.- ID y Nombre de los capitulos en los que se menciona 'Playa de Cangrejos Gigantes'
 
-SELECT nombre FROM lugares WHERE id IN
-    ( SELECT id_lugar FROM mn_lugares_anecdota WHERE id_anecdota IN
-        ( SELECT id FROM anecdotas where
+SELECT id,titulo FROM capitulos WHERE id IN 
+    ( SELECT id_capitulo FROM mn_anecdota_capitulo WHERE id_anecdota IN 
+        ( SELECT id FROM anecdotas where 
             (anecdotas.description LIKE "% Playa de Cangrejos Gigantes %" )));
+            
+--sin resultado
+
+SELECT id,titulo FROM capitulos WHERE id IN
+    (SELECT id_capitulo FROM mn_anecdota_capitulo WHERE id_anecdota IN 
+        (SELECT id FROM anecdotas WHERE id IN 
+            ( SELECT id_anecdota FROM mn_lugares_anecdota WHERE id_lugar IN 
+                ( SELECT id FROM lugares where nombre="Playa De Cangrejos Gigantes"))));
+
+
+--id 1008 Cap 02 unica fila 
+
 
 -- 6.- ¿Cuantas anecdotas hay que estuvieran en 'Catedral Del Dolor'?
+SELECT COUNT(id) FROM anecdotas WHERE id IN 
+    ( SELECT id_anecdota FROM mn_lugares_anecdota WHERE id_lugar IN 
+        ( SELECT id FROM lugares where nombre="Catedral Del Dolor"));
+
+--3
+
 
 -- 7.- ID y Nombre de los personajes que estuvieron en 'Catedral Del Dolor'
+
+SELECT id,nombre from personaje WHERE id IN 
+    (SELECT id_personaje FROM mn_personaje_anectdota WHERE id_anecdota IN 
+        (SELECT id FROM anecdotas WHERE id IN 
+            ( SELECT id_anecdota FROM mn_lugares_anecdota WHERE id_lugar IN 
+                ( SELECT id FROM lugares where nombre="Catedral Del Dolor"))));
+
+--1 chorvitta 11 filas
 
 -- 8.- Estatura media de los Elfos (Todas las clases, salvo Noldor)
 
